@@ -1,11 +1,11 @@
 // scripts/deploy.js
 async function main () {
   // We get the contract to deploy
-  const Box = await ethers.getContractFactory('Box');
-  console.log('Deploying Box...');
-  const box = await Box.deploy();
-  await box.deployed();
-  console.log('Box deployed to:', box.address);
+  const Coin = await ethers.getContractFactory('GLDToken');
+  console.log('Deploying Coin...');
+  const coin = await Coin.deploy(10);
+  await coin.deployed();
+  console.log('Box deployed to:', coin.address);
 }
 
 main()
