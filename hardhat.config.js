@@ -2,6 +2,7 @@
 require('@nomiclabs/hardhat-ethers');
 require("hardhat-gas-reporter");
 require('dotenv').config();
+require('hardhat-exposed');
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
@@ -11,7 +12,13 @@ module.exports = {
   gasReporter: {
     currency: 'USD',
     coinmarketcap: process.env.COINMARKETKEY
-  }
+  },
+  settings: {
+    optimizer: {
+      enabled: false,
+      runs: 200,
+    },
+  },
 }
 
 // task("accounts", "Prints the list of accounts", async (taskArgs) => {

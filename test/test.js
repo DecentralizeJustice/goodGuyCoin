@@ -4,7 +4,7 @@ const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers')
 
 async function deployContract () {
   const initTotalSupply = 0
-  const tokenName = 'GoodGuyNoScam'
+  const tokenName = '$GoodGuyNoScam'
 
   const [owner, otherAccount] = await ethers.getSigners()
   const LocalCoin = await ethers.getContractFactory(tokenName)
@@ -15,22 +15,30 @@ async function deployContract () {
   return { owner, contract, otherAccount, initTotalSupply }
 }
 
-describe('Intitial State Checks', function () {
+describe('Constructor Checks', function () {
   it('Initial Supply Should Be Zero', async function () {
     const { contract, initTotalSupply } = await loadFixture(deployContract)
     const contractInitialSupply = await contract.totalSupply()
     expect(contractInitialSupply.toNumber()).to.deep.equal(initTotalSupply)
   })
-  it('Internal Token Transfer', async function () {
+})
+describe('Deposit Function Checks', function () {
+  it('Initial Deposit', async function () {
+    const { contract, otherAccount } = await loadFixture(deployContract)
     const sendInt = 13
     const sendAmmount = ethers.utils.parseUnits(sendInt.toString(), "ether")
     const locktime = 215
-    const { contract, otherAccount } = await loadFixture(deployContract)
     await contract.depositxDai(otherAccount.address, locktime, { value: sendAmmount })
-    const currentTotalSupply = await contract._totalSupply()
+    const currentTotalSupply = await contract.totalSupply()
     const convertedEthers = ethers.utils.formatEther(currentTotalSupply)
+    const account = await contract.getAccounts(otherAccount.address)
+    console.log(account)
     expect(convertedEthers).to.deep.equal(ethers.utils.formatEther(sendAmmount))
   })
+  // it('Initial Deposit', async function () {
+  //   const currentTotalSupply = await contract.totalSupply()
+  //   expect(true)
+  // })
 })
 
 // describe("transfer", function () {

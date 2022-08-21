@@ -10,12 +10,14 @@ contract GoodGuyNoScam is ERC20 {
     uint256 balance;
     address returnAddress;
   }
+  mapping (address => AccountsStruct) private accounts;
 
-  mapping (address => AccountsStruct) public accounts;
-
-  uint256 public _totalSupply;
+  uint256 private _totalSupply;
   constructor() ERC20("GoodGuyNoScam", "GGNS") {
     _totalSupply = 0;
+  }
+  function totalSupply() public override view returns (uint256){
+    return _totalSupply;
   }
 
   function depositxDai(address to, uint256 spendByTime) public payable returns (bool) {
@@ -24,6 +26,10 @@ contract GoodGuyNoScam is ERC20 {
     _totalSupply = _totalSupply + amount;
     accounts[to] = AccountsStruct (spendByTime, amount, sender);
     return true;
+    }
+  function getAccounts(address account) public view returns (AccountsStruct memory)
+    {
+      return accounts[account];
     }
   /* function burn(address from, uint256 amount) private {
       // Check that the calling account has the minter role
