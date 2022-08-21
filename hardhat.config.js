@@ -28,15 +28,6 @@ module.exports = {
 //     console.log(ethers.utils.formatEther(balance), "ETH");
 //   });
 //
-// task("ownerBalance", "Prints owners erc20 balance")
-//   .setAction(async (taskArgs, hre) => {
-//     const [owner] = await ethers.getSigners()
-//     const MyContract = await ethers.getContractFactory("GLDToken")
-//     const erc20 = await MyContract.attach("0xe7f1725e7734ce288f8367e1bb143e90bb3f0512") // The deployed contract address);
-//     const ownerBalance = await erc20.balanceOf('0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC');
-//     // const name = await contract.address()
-//     console.log(ownerBalance)
-//   });
 //   task("trans", "Prints owners erc20 balance")
 //     .setAction(async (taskArgs, hre) => {
 //       const [owner] = await ethers.getSigners()
