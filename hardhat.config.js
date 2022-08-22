@@ -3,22 +3,30 @@ require('@nomiclabs/hardhat-ethers');
 require("hardhat-gas-reporter");
 require('dotenv').config();
 require('hardhat-exposed');
+require('solidity-coverage');
 
 /**
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  solidity: '0.8.4',
+  solidity: {
+    version: '0.8.4',
+    settings: {
+      optimizer: {
+        enabled: false,
+        runs: 1
+      }
+    }
+  },
   gasReporter: {
     currency: 'USD',
     coinmarketcap: process.env.COINMARKETKEY
   },
-  settings: {
-    optimizer: {
-      enabled: false,
-      runs: 200,
-    },
-  },
+  hardhat: {
+    mocha: {
+      parallel: true,
+    }
+  }
 }
 
 // task("accounts", "Prints the list of accounts", async (taskArgs) => {

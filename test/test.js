@@ -23,17 +23,28 @@ describe('Constructor Checks', function () {
   })
 })
 describe('Deposit Function Checks', function () {
-  it('Initial Deposit', async function () {
+  async function setupTest () {
     const { contract, otherAccount } = await loadFixture(deployContract)
     const sendInt = 13
-    const sendAmmount = ethers.utils.parseUnits(sendInt.toString(), "ether")
     const locktime = 215
+    const sendAmmount = ethers.utils.parseUnits(sendInt.toString(), "ether")
     await contract.depositxDai(otherAccount.address, locktime, { value: sendAmmount })
+    return { contract, otherAccount, sendAmmount };
+  }
+  it('Check that address recieved right amount', async function () {
+    const { contract, otherAccount, sendAmmount } = await loadFixture(setupTest)
     const currentTotalSupply = await contract.totalSupply()
-    const convertedEthers = ethers.utils.formatEther(currentTotalSupply)
-    const account = await contract.getAccounts(otherAccount.address)
-    console.log(account)
-    expect(convertedEthers).to.deep.equal(ethers.utils.formatEther(sendAmmount))
+    const accountBalance = await contract.balanceOf(otherAccount.address)
+    // console.log(account)
+    // expect(ethers.utils.formatEther(currentTotalSupply)).to.deep.equal(ethers.utils.formatEther(sendAmmount))
+    expect(ethers.utils.formatEther(accountBalance)).to.deep.equal(ethers.utils.formatEther(sendAmmount))
+  })
+  it('Check that Supply did not exceeed amount sent', async function () {
+    const { contract, otherAccount } = await loadFixture(setupTest)
+    const currentTotalSupply = await contract.totalSupply()
+    const accountBalance = await contract.balanceOf(otherAccount.address)
+    // console.log(account)
+    expect(ethers.utils.formatEther(currentTotalSupply)).to.deep.equal(ethers.utils.formatEther(accountBalance))
   })
   // it('Initial Deposit', async function () {
   //   const currentTotalSupply = await contract.totalSupply()

@@ -26,10 +26,10 @@ contract GoodGuyNoScam is ERC20 {
     _totalSupply = _totalSupply + amount;
     accounts[to] = AccountsStruct (spendByTime, amount, sender);
     return true;
-    }
-  function getAccounts(address account) public view returns (AccountsStruct memory)
+  }
+  function balanceOf(address account) public view override returns (uint256)
     {
-      return accounts[account];
+      return accounts[account].balance;
     }
   /* function burn(address from, uint256 amount) private {
       // Check that the calling account has the minter role
