@@ -4,7 +4,7 @@ const { loadFixture } = require('@nomicfoundation/hardhat-network-helpers')
 
 async function deployContract () {
   const initTotalSupply = 0
-  const tokenName = '$GoodGuyNoScam'
+  const tokenName = '$GiftBot'
 
   const [owner, otherAccount] = await ethers.getSigners()
   const LocalCoin = await ethers.getContractFactory(tokenName)
